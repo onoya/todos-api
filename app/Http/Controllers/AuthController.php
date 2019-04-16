@@ -40,4 +40,13 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
     }
+
+    public function logout()
+    {
+        auth()->user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
+
+        return response()->json('Logged out successfully', 200);
+    }
 }
